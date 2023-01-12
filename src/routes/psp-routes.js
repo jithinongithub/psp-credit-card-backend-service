@@ -9,6 +9,15 @@ route.use(
     extended: true,
   })
 );
+
+route.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
+
 route.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
@@ -17,9 +26,10 @@ route.get("/", (req, res) => {
 route.post('/add', async function(req, res, next) {
     try {
         console.log(`request ${req.body}`);
-      res.json(await cc_serivice.addCreditCardDetails(req.body));
+      res.send(await cc_serivice.addCreditCardDetails(req.body));
     } catch (err) {
-      console.error(`Error while creating programming language`, err.message);
+      console.log(typeof(err),err);
+      res.json(500,JSON.stringify(err, Object.getOwnPropertyNames(err)));
       next(err);
     }
   });

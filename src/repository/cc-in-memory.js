@@ -9,7 +9,7 @@ async function addCCDetails (creditCardDetails){
 
 async function getAllCCDetails() {
     console.log(`retrieving cc details ${db.keys()} ${JSON.stringify(db.mget(['11212','11213']))}`);
-    return db.mget(db.keys());
+    return [db.mget(db.keys())];
 }
 
 module.exports = {
