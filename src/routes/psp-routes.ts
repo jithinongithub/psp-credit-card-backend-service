@@ -1,7 +1,7 @@
-const express = require("express");
-const cc_serivice = require("../services/psp-credit-card-service")
+import express  from "express";
+import { addCreditCardDetails, getCreditCardDetails } from "../services/psp-credit-card-service";
 const route = express();
-const port = 8081;
+const port:number = 8081;
 
 route.use(express.json());
 route.use(
@@ -14,7 +14,7 @@ route.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 });
 
@@ -26,17 +26,17 @@ route.get("/", (req, res) => {
 route.post('/add', async function(req, res, next) {
     try {
         console.log(`request ${req.body}`);
-      res.send(await cc_serivice.addCreditCardDetails(req.body));
+      res.send(await addCreditCardDetails(req.body));
     } catch (err) {
       console.log(typeof(err),err);
-      res.json(500,JSON.stringify(err, Object.getOwnPropertyNames(err)));
+      res.json(500).json(err.message);
       next(err);
     }
   });
 // Get end point to retrieve Credit Card detials
 route.get('/get', async function (req,res,next){
     try {
-        res.json(await cc_serivice.getCreditCardDetails());
+        res.json(await getCreditCardDetails());
       } catch (err) {
         console.error(`Error while retrieving credit card Details`, err.message);
         next(err);

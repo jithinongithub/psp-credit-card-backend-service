@@ -1,5 +1,7 @@
 # Dependency directories
 node_modules/
+built/
+tsconfig.tsbuildinfo
 
 # Optional npm cache directory
 .npm
